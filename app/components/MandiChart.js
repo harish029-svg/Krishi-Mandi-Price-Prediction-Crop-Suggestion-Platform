@@ -1,0 +1,14 @@
+import PriceChart from "./PriceChart";
+import { generateMockMarketData } from "@/utils/fakeMarketData";
+
+async function MandiChart() {
+  //   const res = await fetch(
+  //     "https://mandi-api.onrender.com/v1/prices?state=Punjab",
+  //     { next: { revalidate: 10 } },
+  //   );
+  //   const data = await res.json();
+  const data = generateMockMarketData();
+  return <PriceChart rawApiData={data.data} />;
+}
+
+export default MandiChart;
