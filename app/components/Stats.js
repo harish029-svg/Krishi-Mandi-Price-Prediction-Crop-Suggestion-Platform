@@ -9,13 +9,8 @@ import {
 import StatCard from "./StatsCard";
 import { extractDashboardData } from "@/utils/extractDashboardData";
 import { getFormattedPrice } from "@/utils/priceFormat";
-const waitTwoSeconds = () => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve("Resolved after 2 seconds!");
-    }, 2000);
-  });
-};
+import { waitTwoSeconds } from "@/utils/waitTwoSeconds";
+
 async function Stats() {
   let statsData = [
     {

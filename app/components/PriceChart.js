@@ -15,8 +15,8 @@ import { extractGraphData } from "@/utils/getMandiPrice";
 
 export default function TrendChart({ rawApiData }) {
   const searchParams = useSearchParams();
-  const crop = searchParams.get("crop") || "Wheat";
-  const location = searchParams.get("location") || "Ludhiana";
+  const crop = searchParams.get("crop") || "Apple";
+  const location = searchParams.get("location") || "*";
 
   const [activeRange, setActiveRange] = useState("1M");
   const ranges = ["7D", "1M", "3M", "6M", "1Y"];

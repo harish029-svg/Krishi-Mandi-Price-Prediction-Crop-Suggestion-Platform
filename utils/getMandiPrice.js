@@ -2,6 +2,7 @@ export async function fetchMarketData(state, commodity, location) {
   try {
     const response = await fetch(
       `https://mandi-api.onrender.com/v1/prices?state=${state}&commodity=${commodity}`,
+      { next: { revalidate: 60 } },
     );
     const json = await response.json();
 
@@ -54,11 +55,11 @@ export async function fetchMarketData(state, commodity, location) {
       if (transformedData.length === 10) break;
     }
 
-    console.log(location);
+    // console.log(location);
 
-    console.log(transformedData);
+    // console.log(transformedData);
 
-    console.log(transformedData.filter((obj) => obj.district === location));
+    // console.log(transformedData.filter((obj) => obj.district === location));
     if (location !== "*") {
       return transformedData.filter((obj) => obj.district === location);
     }

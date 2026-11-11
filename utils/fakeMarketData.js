@@ -1,7 +1,16 @@
 /**
  * Generates synthetic multi-day market data matching the data.gov.in API schema.
  */
-export function generateMockMarketData(days = 30) {
+
+import { cacheLife } from "next/cache";
+
+export async function generateMockMarketData(days = 30) {
+  "use cache";
+  cacheLife({
+    stale: 300, // Serve stale data for 5 minutes while updating in background
+    revalidate: 60, // Revalidate after 60 seconds
+    expire: 3600,
+  });
   const commodities = [
     { name: "Onion", basePrice: 3800, volatility: 80 },
     { name: "Tomato", basePrice: 2400, volatility: 120 },

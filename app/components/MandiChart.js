@@ -7,7 +7,9 @@ async function MandiChart() {
   //     { next: { revalidate: 10 } },
   //   );
   //   const data = await res.json();
-  const data = generateMockMarketData();
+  const data = await generateMockMarketData();
+  // console.log("MANDI DATA*********");
+  // console.log(data);
   return <PriceChart rawApiData={data.data} />;
 }
 

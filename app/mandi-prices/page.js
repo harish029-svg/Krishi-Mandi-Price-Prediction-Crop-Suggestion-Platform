@@ -7,7 +7,7 @@ export const metadata = {
   title: "mandi prices",
 };
 
-function page({ searchParams }) {
+async function Page({ searchParams }) {
   return (
     <div className="w-full p-6 flex flex-col gap-6">
       <MandiWrapper>
@@ -21,4 +21,4 @@ function page({ searchParams }) {
   );
 }
 
-export default page;
+export default Page;

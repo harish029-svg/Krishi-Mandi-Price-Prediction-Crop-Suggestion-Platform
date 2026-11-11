@@ -1,6 +1,7 @@
 import React from "react";
 import TrendChart from "./TrendChart";
 import { fetchMarketData } from "@/utils/getMandiPrice";
+import { waitTwoSeconds } from "@/utils/waitTwoSeconds";
 
 // --- FAKE API FUNCTION ---
 // Simulates a 2-second network request and returns 1 week of trend data
@@ -105,11 +106,13 @@ const TableRow = ({ row }) => {
 export default async function MandiPriceTable({ searchParams }) {
   const params = await searchParams;
   // Extract parameters with fallbacks
-  const crop = params?.crop || "Wheat";
+  const crop = params?.crop || "Apple";
   const location = params?.location || "*";
   // api => 579b464db66ec23bdd0000016f43b2564d494a0d4e4077f1caf22ba1
 
   const priceData = await fetchMarketData("Punjab", crop, location);
+
+  await waitTwoSeconds();
 
   return (
     <div className="bg-white rounded-2xl border border-gray-400 overflow-hidden shadow-sm mt-6">
