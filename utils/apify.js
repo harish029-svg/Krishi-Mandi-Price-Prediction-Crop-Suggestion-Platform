@@ -16,7 +16,7 @@ const input = {
     "arrival_date=09/11/2026",
   ],
   maxResults: 10,
-  apiKey: "579b464db66ec23bdd0000016f43b2564d494a0d4e4077f1caf22ba1",
+  apiKey: "",
 };
 
 // Run the Actor and wait for it to finish
