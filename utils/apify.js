@@ -8,7 +8,7 @@ const client = new ApifyClient({
 
 // Prepare Actor input
 const input = {
-  resourceId: "9ef84268-d588-465a-a308-a864a43d0070",
+  resourceId: "",
   filters: [
     "state=Punjab",
     "commodity=Onion",
