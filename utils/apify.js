@@ -3,7 +3,7 @@ import { ApifyClient } from "apify-client";
 // Initialize the ApifyClient with your Apify API token
 // Replace the '<YOUR_API_TOKEN>' with your token
 const client = new ApifyClient({
-  token: "apify_api_eGbnpVJYjwynAeAwPcLZpcCAQWHfH20PuPcd",
+  token: "",
 });
 
 // Prepare Actor input
