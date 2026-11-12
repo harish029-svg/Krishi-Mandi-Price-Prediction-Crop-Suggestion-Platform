@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Area, YAxis, createHorizontalChart } from "recharts";
+import { Area, Tooltip, YAxis, createHorizontalChart } from "recharts";
 
 const Typed = createHorizontalChart()({ YAxis, Area });
 
@@ -28,6 +28,26 @@ export default function TrendChart({ data, isPositive }) {
           </linearGradient>
         </defs>
         <Typed.YAxis domain={["dataMin", "dataMax"]} hide />
+        <Tooltip
+          contentStyle={{
+            backgroundColor: "#ffffff",
+            borderColor: "#e2e8f0",
+            borderRadius: "10px",
+            boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)",
+          }}
+          itemStyle={{
+            color: "#0f5132",
+            fontWeight: 600,
+            fontSize: "12px",
+          }}
+          labelStyle={{
+            color: "#64748b",
+            margin: "0px",
+            fontSize: "0px",
+          }}
+          position={{ y: 40 }}
+          formatter={(value) => [`₹${value.toLocaleString("en-IN")}`, "Price"]}
+        />
         <Typed.Area
           type="linear" // Changed from "monotone" to "linear" for the spiky look
           dataKey="value"

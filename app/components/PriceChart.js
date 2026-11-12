@@ -21,9 +21,13 @@ export default function TrendChart({ rawApiData }) {
   const [activeRange, setActiveRange] = useState("1M");
   const ranges = ["7D", "1M", "3M", "6M", "1Y"];
 
+  // console.log(rawApiData);
+
   const chartData = useMemo(() => {
-    return extractGraphData(rawApiData, crop, location);
-  }, [rawApiData, crop, location]);
+    return extractGraphData(rawApiData, crop, location, activeRange);
+  }, [rawApiData, crop, location, activeRange]);
+
+  // console.log(chartData);
 
   const formatYAxis = (tickItem) => tickItem.toLocaleString("en-IN");
 

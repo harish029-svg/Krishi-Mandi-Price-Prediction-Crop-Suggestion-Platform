@@ -70,8 +70,9 @@ async function Stats() {
   const data = await res.json();
   const { bestPriceObject, suggestedCrop, totalDistinctMarkets } =
     extractDashboardData(data);
-  statsData[0]["subtitle"] = bestPriceObject["commodity"];
-  statsData[0]["value"] = `${getFormattedPrice(bestPriceObject["max_price"])}`;
+  statsData[0]["subtitle"] = bestPriceObject["commodity"] ?? "cannot get crop";
+  statsData[0]["value"] =
+    `${getFormattedPrice(bestPriceObject["max_price"])}` ?? "cannot get crop";
   statsData[1]["value"] = totalDistinctMarkets;
   statsData[2]["value"] = suggestedCrop;
   return (

@@ -1,16 +1,11 @@
 import PriceChart from "./PriceChart";
-import { generateMockMarketData } from "@/utils/fakeMarketData";
+import { readMandiRecords } from "@/utils/extractGraphData";
 
-async function MandiChart() {
-  //   const res = await fetch(
-  //     "https://mandi-api.onrender.com/v1/prices?state=Punjab",
-  //     { next: { revalidate: 10 } },
-  //   );
-  //   const data = await res.json();
-  const data = await generateMockMarketData();
-  // console.log("MANDI DATA*********");
-  // console.log(data);
-  return <PriceChart rawApiData={data.data} />;
+async function MandiChart({ searchParams }) {
+  const params = await searchParams;
+  // console.log("SEARCH PARAMS ***", params);
+  const data = await readMandiRecords(params?.crop?.toLowerCase() || "apple");
+  return <PriceChart rawApiData={data} />;
 }
 
 export default MandiChart;

@@ -70,7 +70,7 @@ export async function fetchMarketData(state, commodity, location) {
     return [];
   }
 }
-export function extractGraphData(apiData, crop, location) {
+export function extractGraphData(apiData, crop, location, timeframe = "ALL") {
   if (!apiData || !Array.isArray(apiData)) return [];
 
   const cleanCrop = (crop || "").toLowerCase().trim();
@@ -78,11 +78,45 @@ export function extractGraphData(apiData, crop, location) {
   const isAllLocations =
     cleanLocation === "*" || cleanLocation === "all" || !cleanLocation;
 
-  // Filter with flexible string inclusion
+  // Calculate cutoff date based on timeframe
+  const getCutoffDate = (tf) => {
+    if (!tf || tf.toUpperCase() === "ALL") return null;
+    const now = new Date();
+    switch (tf.toUpperCase()) {
+      case "7D":
+        now.setDate(now.getDate() - 7);
+        break;
+      case "1M":
+        now.setMonth(now.getMonth() - 1);
+        break;
+      case "3M":
+        now.setMonth(now.getMonth() - 3);
+        break;
+      case "6M":
+        now.setMonth(now.getMonth() - 6);
+        break;
+      case "1Y":
+        now.setFullYear(now.getFullYear() - 1);
+        break;
+      default:
+        return null;
+    }
+    return now;
+  };
+
+  const cutoffDate = getCutoffDate(timeframe);
+
+  // Filter with flexible string inclusion and date cutoff
   const filtered = apiData.filter((item) => {
-    const itemCommodity = item.commodity.toLowerCase();
-    const itemMarket = item.market.toLowerCase();
-    const itemDistrict = item.district.toLowerCase();
+    const itemCommodity = (item.commodity || "").toLowerCase();
+    const itemMarket = (item.market || "").toLowerCase();
+    const itemDistrict = (item.district || "").toLowerCase();
+
+    // console.log(
+    //   itemCommodity,
+    //   cleanCrop,
+    //   itemCommodity.includes(cleanCrop) || cleanCrop.includes(cleanCrop),
+    // );
 
     const matchesCrop =
       itemCommodity.includes(cleanCrop) || cleanCrop.includes(itemCommodity);
@@ -91,10 +125,18 @@ export function extractGraphData(apiData, crop, location) {
       itemMarket.includes(cleanLocation) ||
       itemDistrict.includes(cleanLocation);
 
-    return matchesCrop && matchesLocation;
+    let matchesTimeframe = true;
+    if (cutoffDate && item.arrival_date) {
+      const itemDate = new Date(item.arrival_date);
+      matchesTimeframe = !isNaN(itemDate) && itemDate >= cutoffDate;
+    }
+
+    return matchesCrop && matchesLocation && matchesTimeframe;
   });
 
   if (filtered.length === 0) return [];
+
+  // console.log(filtered);
 
   // Group by arrival_date to handle duplicate dates within the same filter
   const dateMap = {};

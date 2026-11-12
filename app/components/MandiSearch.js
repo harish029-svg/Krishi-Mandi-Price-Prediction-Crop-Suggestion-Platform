@@ -55,6 +55,7 @@ export default function MandiSearch({ isPending, startTransition }) {
           options={CROP_DATA}
           value={selectedCrop}
           onChange={setSelectedCrop}
+          isPending={isPending}
         />
 
         <Dropdown
@@ -62,6 +63,7 @@ export default function MandiSearch({ isPending, startTransition }) {
           options={LOCATION_DATA}
           value={selectedLocation}
           onChange={setSelectedLocation}
+          isPending={isPending}
         />
 
         <button

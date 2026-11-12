@@ -11,7 +11,7 @@ export default function MandiWrapper({ children }) {
       <MandiSearch isPending={isPending} startTransition={startTransition} />
 
       <div
-        className={`transition-opacity duration-300 ${isPending ? "opacity-40 pointer-events-none" : "opacity-100"}`}
+        className={`flex flex-col gap-4 transition-opacity duration-300 ${isPending ? "opacity-40 pointer-events-none" : "opacity-100"}`}
       >
         {children}
       </div>

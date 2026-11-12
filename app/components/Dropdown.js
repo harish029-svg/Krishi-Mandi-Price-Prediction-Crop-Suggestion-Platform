@@ -1,6 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
 
-export default function Dropdown({ label, options, value, onChange }) {
+export default function Dropdown({
+  label,
+  options,
+  value,
+  onChange,
+  isPending,
+}) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -21,8 +27,8 @@ export default function Dropdown({ label, options, value, onChange }) {
       <div className="relative">
         <button
           type="button"
-          onClick={() => setIsOpen(!isOpen)}
-          className={`w-full flex items-center justify-between px-4 py-2.5 bg-white border rounded-xl text-sm text-gray-800 font-medium outline-none transition-colors ${
+          onClick={() => setIsOpen(!isOpen && !isPending)}
+          className={`w-full ${isPending ? "opacity-40" : ""} flex items-center justify-between px-4 py-2.5 bg-white border rounded-xl text-sm text-gray-800 font-medium outline-none transition-colors ${
             isOpen
               ? "border-[#0d5c38] ring-1 ring-[#0d5c38]"
               : "border-gray-200 hover:border-gray-300"
