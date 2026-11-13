@@ -19,10 +19,12 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
+    
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
+      <script src={`https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&libraries=places`} async defer></script>
       <body className="min-h-full flex flex-col">
         <AppLayout>{children}</AppLayout>
       </body>
