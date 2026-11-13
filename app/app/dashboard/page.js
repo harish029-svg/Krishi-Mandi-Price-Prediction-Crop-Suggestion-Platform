@@ -6,10 +6,11 @@ import {
   MdLocationOn,
 } from "react-icons/md";
 import { FiTrendingUp, FiClipboard, FiMapPin } from "react-icons/fi";
-import StatCard from "../components/StatsCard";
-import ActionCard from "../components/ActionCard";
+import StatCard from "../../components/StatsCard";
+import ActionCard from "../../components/ActionCard";
 import { TbPlant } from "react-icons/tb";
 import { extractDashboardData } from "@/utils/extractDashboardData";
+import { auth } from "../../_lib/auth";
 // --- FAKE DATA ARRAYS ---
 // let statsData = [
 //   {
@@ -91,6 +92,7 @@ const quickActionsData = [
 
 // --- MAIN DASHBOARD VIEW ---
 export default async function Dashboard() {
+  const session = await auth();
   let statsData = [
     {
       id: 1,
@@ -141,21 +143,12 @@ export default async function Dashboard() {
       iconBg: "bg-white",
     },
   ];
-  //   const res = await fetch(
-  //     "https://api.data.gov.in/resource/9ef84268-d588-465a-a308-a864a43d0070?api-key=579b464db66ec23bdd0000016f43b2564d494a0d4e4077f1caf22ba1&format=json&filters%5Bstate.keyword%5D=Punjab&filters%5Bdistrict%5D=Ludhiana",
-  //   );
-  //   const data = await res.json();
-  //   const { bestPriceObject, suggestedCrop, totalDistinctMarkets } =
-  //     extractDashboardData(data);
-  //   //   statsData[0]["subtitle"] = bestPriceObject["commodity"];
-  //   console.log(statsData[0]);
-
   return (
     <div className="p-8 max-w-6xl">
       {/* Header Section */}
       <div className="mb-8">
         <h1 className="text-2xl font-bold text-gray-800 mb-1">
-          Good Morning, Ramesh ji
+          Good Morning, {session?.user?.name} ji
         </h1>
         <p className="text-gray-500 text-sm">
           Here's what's happening in your area today.

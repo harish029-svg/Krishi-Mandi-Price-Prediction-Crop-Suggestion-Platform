@@ -1,9 +1,9 @@
 import { Suspense } from "react";
-import MandiWrapper from "../components/MandiWrapper";
-import Table from "../components/Table";
-import TableSkeleton from "../components/TableSekelton";
-import MandiChart from "../components/MandiChart";
-import TableChartSkeleton from "../components/TableChartSkeleton";
+import MandiWrapper from "../../components/MandiWrapper";
+import Table from "../../components/Table";
+import TableSkeleton from "../../components/TableSekelton";
+import MandiChart from "../../components/MandiChart";
+import TableChartSkeleton from "../../components/TableChartSkeleton";
 export const metadata = {
   title: "mandi prices",
 };

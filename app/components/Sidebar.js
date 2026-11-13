@@ -12,18 +12,19 @@ import {
 } from "react-icons/fi";
 import { TbPlant } from "react-icons/tb";
 import { BiLineChart } from "react-icons/bi";
+import { signOut } from "../_lib/auth";
 
 const navItems = [
-  { name: "Dashboard", href: "/", icon: FiHome },
-  { name: "Mandi Prices", href: "/mandi-prices", icon: FiTrendingUp },
-  { name: "Crop Suggestion", href: "/crop-suggestion", icon: TbPlant },
-  { name: "Market Analysis", href: "/market-analysis", icon: BiLineChart },
-  { name: "My Land", href: "/my-land", icon: FiMap },
-  { name: "Profile", href: "/profile", icon: FiUser },
-  { name: "Settings", href: "/settings", icon: FiSettings },
+  { name: "Dashboard", href: "/app/dashboard", icon: FiHome },
+  { name: "Mandi Prices", href: "/app/mandi-prices", icon: FiTrendingUp },
+  { name: "Crop Suggestion", href: "/app/crop-suggestion", icon: TbPlant },
+  { name: "Market Analysis", href: "/app/market-analysis", icon: BiLineChart },
+  { name: "My Land", href: "/app/my-land", icon: FiMap },
+  { name: "Profile", href: "/app/profile", icon: FiUser },
+  { name: "Settings", href: "/app/settings", icon: FiSettings },
 ];
 
-export default function Sidebar() {
+export default function Sidebar({ children }) {
   const pathname = usePathname();
 
   return (
@@ -61,12 +62,16 @@ export default function Sidebar() {
       </div>
 
       {/* Logout */}
-      <div className="p-4 border-t border-gray-100">
-        <button className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-gray-600 hover:bg-gray-50 transition-colors">
+      {/* <div className="p-4 border-t border-gray-100">
+        <button
+          onClick={() => signOut({ redirectTo: "/login" })}
+          className="w-full cursor-pointer flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-gray-600 hover:bg-gray-100 transition-colors"
+        >
           <FiLogOut className="text-lg" />
           Log Out
         </button>
-      </div>
+      </div> */}
+      {children}
     </aside>
   );
 }
