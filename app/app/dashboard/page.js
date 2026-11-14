@@ -6,11 +6,17 @@ import {
   MdLocationOn,
 } from "react-icons/md";
 import { FiTrendingUp, FiClipboard, FiMapPin } from "react-icons/fi";
-import StatCard from "../../components/StatsCard";
-import ActionCard from "../../components/ActionCard";
+import StatCard from "../../_components/StatsCard";
+import ActionCard from "../../_components/ActionCard";
 import { TbPlant } from "react-icons/tb";
 import { extractDashboardData } from "@/utils/extractDashboardData";
 import { auth } from "../../_lib/auth";
+import DashboardHeader from "@/app/_components/DashboardHeader";
+import { Suspense } from "react";
+import LoadingGrid from "@/app/_components/LoadingGrid";
+import Stats from "@/app/_components/Stats";
+import StatsWrapper from "@/app/_components/StatsWrapper";
+import { getFarmerById } from "@/app/_services/apiFarmers.mjs";
 // --- FAKE DATA ARRAYS ---
 // let statsData = [
 //   {
@@ -146,21 +152,12 @@ export default async function Dashboard() {
   return (
     <div className="p-8 max-w-6xl">
       {/* Header Section */}
-      <div className="mb-8">
-        <h1 className="text-2xl font-bold text-gray-800 mb-1">
-          Good Morning, {session?.user?.name} ji
-        </h1>
-        <p className="text-gray-500 text-sm">
-          Here's what's happening in your area today.
-        </p>
-      </div>
+      <DashboardHeader id={session?.user?.farmerId} />
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
-        {statsData.map((stat) => (
-          <StatCard key={stat.id} data={stat} />
-        ))}
-      </div>
+      <Suspense fallback={<LoadingGrid />}>
+        <Stats id={session?.user?.farmerId} />
+      </Suspense>
 
       {/* Quick Actions */}
       <div className="mb-10">

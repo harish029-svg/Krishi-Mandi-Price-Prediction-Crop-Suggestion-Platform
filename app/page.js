@@ -1,5 +1,5 @@
 function Home() {
-  return <div>IN DEVLOPMENT...</div>;
+  return <div>VISIT /app/dashboard</div>;
 }
 
 export default Home;

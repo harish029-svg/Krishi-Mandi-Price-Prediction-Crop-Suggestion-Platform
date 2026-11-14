@@ -10,8 +10,9 @@ import StatCard from "./StatsCard";
 import { extractDashboardData } from "@/utils/extractDashboardData";
 import { getFormattedPrice } from "@/utils/priceFormat";
 import { waitTwoSeconds } from "@/utils/waitTwoSeconds";
+import { getFarmerById } from "../_services/apiFarmers.mjs";
 
-async function Stats() {
+async function Stats({ id }) {
   let statsData = [
     {
       id: 1,
@@ -62,17 +63,22 @@ async function Stats() {
       iconBg: "bg-white",
     },
   ];
+  const farmer = await getFarmerById(id);
+  const state = farmer?.state;
+  const district = farmer?.district;
   const res = await fetch(
-    "https://api.data.gov.in/resource/9ef84268-d588-465a-a308-a864a43d0070?api-key=579b464db66ec23bdd0000016f43b2564d494a0d4e4077f1caf22ba1&format=json&filters%5Bstate.keyword%5D=Punjab&filters%5Bdistrict%5D=Ludhiana",
+    `https://api.data.gov.in/resource/9ef84268-d588-465a-a308-a864a43d0070?api-key=579b464db66ec23bdd0000016f43b2564d494a0d4e4077f1caf22ba1&format=json&filters%5Bstate.keyword%5D=${state}&filters%5Bdistrict%5D=${district}`,
     { next: { revalidate: 60 } },
   );
   await waitTwoSeconds();
   const data = await res.json();
+  console.log(data);
   const { bestPriceObject, suggestedCrop, totalDistinctMarkets } =
     extractDashboardData(data);
-  statsData[0]["subtitle"] = bestPriceObject["commodity"] ?? "cannot get crop";
+  statsData[0]["subtitle"] = bestPriceObject?.commodity ?? "cannot get crop";
   statsData[0]["value"] =
-    `${getFormattedPrice(bestPriceObject["max_price"])}` ?? "cannot get crop";
+    `${getFormattedPrice(bestPriceObject?.max_price || 0)}` ??
+    "cannot get crop";
   statsData[1]["value"] = totalDistinctMarkets;
   statsData[2]["value"] = suggestedCrop;
   return (

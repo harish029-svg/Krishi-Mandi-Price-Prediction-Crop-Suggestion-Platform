@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { FcGoogle } from "react-icons/fc";
-import LoginForm from "@/app/components/LoginForm";
+import LoginForm from "@/app/_components/LoginForm";
 import { signInAction } from "../_lib/actions";
 export default function LoginPage() {
   // Example Next.js 14 Server Action for Google Auth
