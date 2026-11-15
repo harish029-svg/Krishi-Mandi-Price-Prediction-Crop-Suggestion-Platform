@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import Dropdown from "./Dropdown";
 import useFetchFarmer from "../_hooks/useFetchFarmer";
+import DropDownDistrict from "./DropDownDistricts";
 // --- REUSABLE DROPDOWN COMPONENT ---
 
 // --- FAKE DATA ARRAYS ---
@@ -25,7 +26,7 @@ const LOCATION_DATA = [
 ];
 
 // --- MAIN SEARCH COMPONENT ---
-export default function MandiSearch({ isPending, startTransition }) {
+export default function MandiSearch({ id, isPending, startTransition }) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -36,6 +37,9 @@ export default function MandiSearch({ isPending, startTransition }) {
   const [selectedLocation, setSelectedLocation] = useState(
     searchParams.get("location") || LOCATION_DATA[0],
   );
+  // const [districts, setDistricts] = useState([]);
+
+  // useEffect(function () {}, []);
 
   const handleSearch = () => {
     const params = new URLSearchParams(searchParams);
@@ -58,10 +62,9 @@ export default function MandiSearch({ isPending, startTransition }) {
           onChange={setSelectedCrop}
           isPending={isPending}
         />
-
-        <Dropdown
+        <DropDownDistrict
           label="Select Location"
-          options={LOCATION_DATA}
+          id={id}
           value={selectedLocation}
           onChange={setSelectedLocation}
           isPending={isPending}

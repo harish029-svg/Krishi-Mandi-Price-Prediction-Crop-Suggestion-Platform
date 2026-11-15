@@ -38,11 +38,15 @@ async function fetchWithRetry(url, maxRetries = 5, initialDelay = 2000) {
 export async function fetchAndSaveHistoricalMandiData({
   apiKey = "579b464db66ec23bdd0000016f43b2564d494a0d4e4077f1caf22ba1",
   resourceId = "35985678-0d79-46b4-9ed6-6f13308a1d24",
-  crop = "Apple",
-  state = "Punjab",
+  crop = "Tomato",
+  state = "Uttar Pradesh",
   district = "all",
   monthsBack = 1,
-  outputPath = path.join(process.cwd(), "data", "mandi-history-apple.json"),
+  outputPath = path.join(
+    process.cwd(),
+    "data",
+    "mandi-history-tomato-uttar pradesh.json",
+  ),
 }) {
   const cutoffDate = new Date();
   cutoffDate.setMonth(cutoffDate.getMonth() - monthsBack);

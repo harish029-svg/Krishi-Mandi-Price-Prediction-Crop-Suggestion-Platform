@@ -70,7 +70,7 @@ async function Stats({ id }) {
     `https://api.data.gov.in/resource/9ef84268-d588-465a-a308-a864a43d0070?api-key=579b464db66ec23bdd0000016f43b2564d494a0d4e4077f1caf22ba1&format=json&filters%5Bstate.keyword%5D=${state}&filters%5Bdistrict%5D=${district}`,
     { next: { revalidate: 60 } },
   );
-  await waitTwoSeconds();
+  // await waitTwoSeconds();
   const data = await res.json();
   console.log(data);
   const { bestPriceObject, suggestedCrop, totalDistinctMarkets } =

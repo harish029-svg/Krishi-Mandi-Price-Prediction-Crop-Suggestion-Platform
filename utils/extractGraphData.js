@@ -37,22 +37,24 @@ function normalizeRecord(item) {
   };
 }
 
-export async function readMandiRecords(crop) {
+export async function readMandiRecords(crop, state) {
   const filePath = path.join(
     process.cwd(),
     "utils",
     "data",
-    `mandi-history-${crop}.json`,
+    `mandi-history-${crop}-${state}.json`,
   );
   try {
     // console.log(filePath);
     const resolvedPath = path.resolve(filePath);
     const rawData = await fs.readFile(resolvedPath, "utf-8");
-    const records = JSON.parse(rawData);
+    let records = JSON.parse(rawData);
 
     if (!Array.isArray(records)) return [];
 
-    return records.map(normalizeRecord);
+    let arr = records.map(normalizeRecord);
+    return arr.filter((record) => record?.state?.toLowerCase() === state);
+    // return arr;
   } catch (error) {
     if (error.code === "ENOENT") {
       console.warn(`Mandi data file not found at: ${filePath}`);
