@@ -1,5 +1,5 @@
 
-import LandingPage from "./_components/LandingPage";
+import LandingPage from "./_components/Landingpage";
 
 export const metadata = {
   title: "AgriSaathi | Smarter Farming Decisions",
