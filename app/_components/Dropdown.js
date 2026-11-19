@@ -22,7 +22,7 @@ export default function Dropdown({
   }, []);
 
   return (
-    <div className="flex flex-col gap-1.5 w-full" ref={dropdownRef}>
+    <div className="flex flex-col gap-1.5 w-full z-1000" ref={dropdownRef}>
       <label className="text-xs font-medium text-gray-500">{label}</label>
       <div className="relative">
         <button

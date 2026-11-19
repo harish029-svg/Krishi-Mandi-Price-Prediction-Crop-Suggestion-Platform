@@ -72,7 +72,7 @@ async function Stats({ id }) {
   );
   // await waitTwoSeconds();
   const data = await res.json();
-  console.log(data);
+  // console.log(data);
   const { bestPriceObject, suggestedCrop, totalDistinctMarkets } =
     extractDashboardData(data);
   statsData[0]["subtitle"] = bestPriceObject?.commodity ?? "cannot get crop";
@@ -81,6 +81,8 @@ async function Stats({ id }) {
     "cannot get crop";
   statsData[1]["value"] = totalDistinctMarkets;
   statsData[2]["value"] = suggestedCrop;
+  console.log("STATS DATA *********");
+  console.log(statsData);
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
       {statsData.map((stat) => (

@@ -1,34 +1,32 @@
 "use client";
 
-import { useState } from "react";
+import { useActionState } from "react";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 
-export default function LoginForm() {
-  const [showPassword, setShowPassword] = useState(false);
-  const [mobileNumber, setMobileNumber] = useState("");
-  const [password, setPassword] = useState("");
+export default function LoginForm({ action }) {
+  const [state, formAction, pending] = useActionState(action, null);
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-    console.log("Login attempt:", { mobileNumber, password });
-  };
+  // const handleLogin = (e) => {
+  //   e.preventDefault();
+  //   console.log("Login attempt:", { mobileNumber, password });
+  // };
+  console.log(state);
 
   return (
-    <form onSubmit={handleLogin} className="space-y-5">
+    <form action={formAction} className="space-y-5">
       <div>
         <label
           className="block text-sm font-bold text-gray-800 mb-1.5 drop-shadow-sm"
           htmlFor="mobile"
         >
-          Mobile Number
+          Email
         </label>
         <input
           id="mobile"
-          type="tel"
-          placeholder="Enter your mobile number"
+          type="email"
+          placeholder="Enter your email"
           className="w-full px-4 py-2.5 bg-white/50 border border-white/60 rounded-lg focus:ring-2 focus:ring-[#0d4734] focus:bg-white/70 focus:border-transparent outline-none transition-all placeholder:text-gray-600 text-gray-900 font-medium"
-          value={mobileNumber}
-          onChange={(e) => setMobileNumber(e.target.value)}
+          name="email"
           required
         />
       </div>
@@ -43,21 +41,19 @@ export default function LoginForm() {
         <div className="relative">
           <input
             id="password"
-            type={showPassword ? "text" : "password"}
             placeholder="Enter your password"
             className="w-full px-4 py-2.5 bg-white/50 border border-white/60 rounded-lg focus:ring-2 focus:ring-[#0d4734] focus:bg-white/70 focus:border-transparent outline-none transition-all placeholder:text-gray-600 text-gray-900 font-medium"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            name="password"
             required
           />
-          <button
+          {/* <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
             className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-600 hover:text-gray-900 focus:outline-none"
             aria-label="Toggle password visibility"
           >
             {showPassword ? <FiEyeOff size={18} /> : <FiEye size={18} />}
-          </button>
+          </button> */}
         </div>
       </div>
 

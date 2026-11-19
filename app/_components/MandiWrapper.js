@@ -9,7 +9,7 @@ export default function MandiWrapper({ id, children }) {
   const [isPending, startTransition] = useTransition();
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="min-h-full flex flex-col gap-2 relative">
       <MandiSearch
         id={id}
         isPending={isPending}
@@ -17,7 +17,7 @@ export default function MandiWrapper({ id, children }) {
       />
 
       <div
-        className={`flex flex-col gap-4 transition-opacity duration-300 ${isPending ? "opacity-40 pointer-events-none" : "opacity-100"}`}
+        className={`min-h-full flex flex-col gap-4 transition-opacity duration-300 ${isPending ? "opacity-40 pointer-events-none" : "opacity-100"}`}
       >
         {children}
       </div>

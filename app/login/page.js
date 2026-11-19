@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { FcGoogle } from "react-icons/fc";
 import LoginForm from "@/app/_components/LoginForm";
-import { signInAction } from "../_lib/actions";
+import { loginAction, signInAction } from "../_lib/actions";
 export default function LoginPage() {
   // Example Next.js 14 Server Action for Google Auth
   async function signInWithGoogle() {
@@ -36,7 +36,7 @@ export default function LoginPage() {
         </div>
 
         {/* The Client Component handling only the mobile/password state */}
-        <LoginForm />
+        <LoginForm action={loginAction} />
 
         {/* Divider */}
         <div className="mt-6 flex items-center justify-between">

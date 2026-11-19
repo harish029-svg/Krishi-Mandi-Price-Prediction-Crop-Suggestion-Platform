@@ -10,7 +10,7 @@ async function MandiChart({ searchParams }) {
   } = await auth();
   const { state } = await getFarmerById(farmerId);
   // console.log("SEARCH PARAMS ***", params);
-  console.log(state);
+  // console.log(state);
   const data = await readMandiRecords(
     params?.crop?.toLowerCase() || "apple",
     state.toLowerCase().includes("pradesh")

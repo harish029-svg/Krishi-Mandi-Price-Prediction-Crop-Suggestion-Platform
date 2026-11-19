@@ -1,24 +1,24 @@
 export async function fetchMarketData(state, commodity, location) {
   try {
     //https://api.data.gov.in/resource/9ef84268-d588-465a-a308-a864a43d0070?api-key=579b464db66ec23bdd0000016f43b2564d494a0d4e4077f1caf22ba1&format=json&filters%5Bstate.keyword%5D=${state}&filters%5Bcommodity%5D=${district}
-    const response = await fetch(
-      `https://api.data.gov.in/resource/9ef84268-d588-465a-a308-a864a43d0070?api-key=579b464db66ec23bdd0000016f43b2564d494a0d4e4077f1caf22ba1&format=json&filters%5Bstate.keyword%5D=${state}&filters%5Bcommodity%5D=${commodity}`,
-      { next: { revalidate: 60 } },
-    );
     // const response = await fetch(
-    //   `https://mandi-api.onrender.com/v1/prices?state=${state}&commodity=${commodity}`,
+    //   `https://api.data.gov.in/resource/9ef84268-d588-465a-a308-a864a43d0070?api-key=579b464db66ec23bdd0000016f43b2564d494a0d4e4077f1caf22ba1&format=json&filters%5Bstate.keyword%5D=${state}&filters%5Bcommodity%5D=${commodity}`,
     //   { next: { revalidate: 60 } },
     // );
+    const response = await fetch(
+      `https://mandi-api.onrender.com/v1/prices?state=${state}&commodity=${commodity}`,
+      { next: { revalidate: 60 } },
+    );
     const json = await response.json();
 
-    if (!Array.isArray(json.records)) {
+    if (!Array.isArray(json.data)) {
       throw new Error("Invalid data format received");
     }
-    console.log("INSIDE GET MANDI PRICE");
-    console.log(json);
+    // console.log("INSIDE GET MANDI PRICE");
+    // console.log(json);
     // Group by market
     const marketGroups = {};
-    json.records.forEach((item) => {
+    json.data.forEach((item) => {
       if (!marketGroups[item.market]) {
         marketGroups[item.market] = [];
       }
