@@ -20,22 +20,27 @@ const DUMMY_OPEN_HOURS = "8:00 AM – 5:00 PM";
 
 /* ---------- Fetch ---------- */
 
-export async function fetchMandiRecords({ state, district }) {
+export async function fetchMandiRecords({ crop, state, district }) {
   const url = new URL(
-    `https://api.data.gov.in/resource/9ef84268-d588-465a-a308-a864a43d0070?api-key=579b464db66ec23bdd0000016f43b2564d494a0d4e4077f1caf22ba1&format=json&filters%5Bstate.keyword%5D=${state}&filters%5Bdistrict%5D=${district}`,
+    `https://api.data.gov.in/resource/9ef84268-d588-465a-a308-a864a43d0070?api-key=579b464db66ec23bdd0000016f43b2564d494a0d4e4077f1caf22ba1&format=json&filters%5Bstate.keyword%5D=${state}`,
   );
   //   url.searchParams.set("api-key", process.env.DATA_GOV_API_KEY ?? "");
   //   url.searchParams.set("format", "json");
   //   url.searchParams.set("limit", "500");
-  //   url.searchParams.set("filters[state.keyword]", state);
-  //   if (district) {
-  //     url.searchParams.set("filters[district]", district);
-  //   }
+  if (crop && crop !== "*") {
+    url.searchParams.set("filters[commodity]", crop);
+  }
+  if (district && district !== "*") {
+    url.searchParams.set("filters[district]", district);
+  }
+
+  // console.log(url);
 
   const res = await fetch(url, { next: { revalidate: 60 * 60 } });
   if (!res.ok) throw new Error(`Mandi API failed with status ${res.status}`);
 
   const json = await res.json();
+  // console.log("INSIDE FETCH MANDI RECORDS", json.records);
   return json.records ?? [];
 }
 

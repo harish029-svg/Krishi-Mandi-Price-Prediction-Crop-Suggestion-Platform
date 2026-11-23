@@ -28,7 +28,6 @@ export async function createFarmer(newFarmer) {
 }
 
 export async function updateFarmerById(id, val) {
-  console.log(id, val);
   const { data, error } = await supabase
     .from("Farmers")
     .update(val)

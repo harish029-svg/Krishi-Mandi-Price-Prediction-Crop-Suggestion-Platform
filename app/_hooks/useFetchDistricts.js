@@ -7,7 +7,7 @@ export function useFetchDistricts({ farmerId }) {
   const [stateName, setStateName] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  console.log("INSIDE FETCH DISTRICTS", farmerId);
+  // console.log("INSIDE FETCH DISTRICTS", farmerId);
 
   useEffect(() => {
     // Do not run if no farmerId is provided
@@ -44,7 +44,7 @@ export function useFetchDistricts({ farmerId }) {
 
         const statesData = await response.json();
 
-        console.log(statesData);
+        // console.log(statesData);
 
         // Step 3: Find the matching state (case-insensitive) and extract districts
         const matchedState = statesData.find(

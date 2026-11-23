@@ -9,6 +9,7 @@ import DropDownDistrict from "./DropDownDistricts";
 
 // --- FAKE DATA ARRAYS ---
 const CROP_DATA = [
+  "*",
   "Apple",
   "CauliFlower",
   "Tomato",

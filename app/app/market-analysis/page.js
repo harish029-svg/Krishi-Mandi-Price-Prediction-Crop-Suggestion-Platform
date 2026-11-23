@@ -7,7 +7,10 @@ async function page({ searchParams }) {
   return (
     <div className="w-full p-6 flex flex-col gap-6">
       <MandiWrapper id={session?.user?.farmerId}>
-        <MarketAnalysisPage searchParams={searchParams} />
+        <MarketAnalysisPage
+          farmerId={session?.user?.farmerId}
+          searchParams={searchParams}
+        />
       </MandiWrapper>
     </div>
   );

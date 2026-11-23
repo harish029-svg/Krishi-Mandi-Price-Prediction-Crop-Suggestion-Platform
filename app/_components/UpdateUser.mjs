@@ -2,14 +2,13 @@
 
 import React, { useState, useEffect, useMemo } from "react";
 import {
-  FaUser,
-  FaMapMarkerAlt,
-  FaImage,
-  FaCheckCircle,
-  FaUndo,
-  FaSpinner,
-} from "react-icons/fa";
-import useFetchFarmer from "@/app/_hooks/useFetchFarmer"; // Adjust path based on your project structure
+  HiOutlineUser,
+  HiOutlineMapPin,
+  HiOutlinePhoto,
+  HiOutlineArrowPath,
+  HiOutlineCheck,
+} from "react-icons/hi2";
+import useFetchFarmer from "@/app/_hooks/useFetchFarmer";
 import useUpdateFarmer from "../_hooks/useUpdateFarmer";
 
 export default function ProfileUpdateForm({ id }) {
@@ -35,24 +34,23 @@ export default function ProfileUpdateForm({ id }) {
     }
   }, [initialData]);
 
-  // Check if current form data matches initial fetched data
+  // Fixed: compare profilePic against initialData.image
   const isUnchanged = useMemo(() => {
     if (!initialData) return true;
     return (
       formData.name === (initialData.name || "") &&
       formData.state === (initialData.state || "") &&
       formData.district === (initialData.district || "") &&
-      formData.profilePic === (initialData.profilePic || "")
+      formData.profilePic === (initialData.image || "")
     );
   }, [formData, initialData]);
 
-  // Handle input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Reset back to initial data
+  // Fixed: reset profilePic back to initialData.image
   const handleCancel = (e) => {
     e.preventDefault();
     if (initialData) {
@@ -60,12 +58,11 @@ export default function ProfileUpdateForm({ id }) {
         name: initialData.name || "",
         state: initialData.state || "",
         district: initialData.district || "",
-        profilePic: initialData.profilePic || "",
+        profilePic: initialData.image || "",
       });
     }
   };
 
-  // Handle form submission and API call
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (isUnchanged) return;
@@ -89,10 +86,10 @@ export default function ProfileUpdateForm({ id }) {
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center h-64 bg-emerald-50/50 rounded-2xl border border-emerald-100">
-        <FaSpinner className="w-6 h-6 text-emerald-600 animate-spin" />
-        <span className="ml-2 text-emerald-800 font-medium">
-          Loading farmer profile...
+      <div className="flex h-64 items-center justify-center rounded-2xl bg-white shadow-sm ring-1 ring-gray-100">
+        <HiOutlineArrowPath className="h-5 w-5 animate-spin text-green-800" />
+        <span className="ml-2.5 text-sm font-medium text-gray-600">
+          Loading profile settings...
         </span>
       </div>
     );
@@ -100,56 +97,57 @@ export default function ProfileUpdateForm({ id }) {
 
   if (error) {
     return (
-      <div className="p-4 bg-red-50 border border-red-200 text-red-700 rounded-2xl text-center text-sm">
+      <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
         Failed to load profile: {error.message || "Please try again later."}
       </div>
     );
   }
 
   return (
-    <div className="max-w-xl mx-auto bg-white rounded-2xl shadow-sm border border-emerald-100 overflow-hidden">
-      {/* Header Banner */}
-      <div className="bg-emerald-800 px-6 py-4 flex items-center justify-between">
-        <h2 className="text-lg font-semibold text-white">
-          Mandi Trader Profile
+    <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+      {/* Left Column: Profile Overview Card */}
+      <div className="flex flex-col items-center rounded-2xl bg-white p-6 text-center shadow-sm ring-1 ring-gray-100 lg:self-start">
+        <img
+          src={formData.profilePic || "https://via.placeholder.com/150"}
+          alt={formData.name || "Farmer profile"}
+          className="h-24 w-24 rounded-full object-cover ring-4 ring-green-50"
+        />
+        <h2 className="mt-4 text-lg font-bold text-gray-900">
+          {formData.name || "Farmer"}
         </h2>
-        <span className="text-xs bg-emerald-700 text-emerald-100 px-2.5 py-1 rounded-full font-medium">
-          Region: {formData.state || "Not set"}
+        <p className="mt-0.5 text-sm text-gray-500">
+          {[formData.district, formData.state].filter(Boolean).join(", ") ||
+            "Location not set"}
+        </p>
+
+        <span className="mt-4 inline-flex items-center gap-1.5 rounded-full bg-green-50 px-3 py-1 text-xs font-medium text-green-800">
+          <HiOutlineMapPin className="h-3.5 w-3.5" />
+          {formData.state || "Region not set"}
         </span>
       </div>
 
-      <form onSubmit={handleSubmit} className="p-6 space-y-5">
-        <div className="flex items-center gap-4 p-4 bg-emerald-50/40 rounded-xl border border-emerald-100">
-          <img
-            src={formData.profilePic || "https://via.placeholder.com/150"}
-            alt="Profile Preview"
-            className="w-16 h-16 rounded-full object-cover border-2 border-emerald-500 shadow-sm"
-          />
-          <div className="flex-1">
-            <label className="block text-xs font-semibold text-emerald-900 uppercase tracking-wider mb-1">
-              Profile Picture URL
-            </label>
-            <div className="relative flex items-center">
-              <FaImage className="absolute left-3 text-emerald-500" />
-              <input
-                type="url"
-                name="profilePic"
-                value={formData.profilePic}
-                onChange={handleChange}
-                placeholder="https://example.com/avatar.jpg"
-                className="w-full pl-9 pr-3 py-2 text-sm bg-white border border-emerald-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-emerald-900"
-              />
-            </div>
-          </div>
+      {/* Right Column: Editable Details Card */}
+      <form
+        onSubmit={handleSubmit}
+        className="space-y-5 rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-100 lg:col-span-2"
+      >
+        <div className="border-b border-gray-100 pb-4">
+          <h3 className="text-base font-semibold text-gray-900">
+            Personal & Region Information
+          </h3>
+          <p className="mt-0.5 text-xs text-gray-500">
+            Your state and district determine default local mandi prices and
+            crop suggestions.
+          </p>
         </div>
 
         {/* Full Name */}
         <div>
-          <label className="block text-xs font-semibold text-emerald-900 uppercase tracking-wider mb-1">
+          <label className="mb-1.5 block text-xs font-medium text-gray-700">
             Full Name
           </label>
           <div className="relative flex items-center">
-            <FaUser className="absolute left-3 text-emerald-500" />
+            <HiOutlineUser className="pointer-events-none absolute left-3.5 h-4 w-4 text-gray-400" />
             <input
               type="text"
               name="name"
@@ -157,69 +155,90 @@ export default function ProfileUpdateForm({ id }) {
               onChange={handleChange}
               placeholder="Enter your name"
               required
-              className="w-full pl-9 pr-3 py-2 text-sm bg-white border border-emerald-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-emerald-900"
+              className="w-full rounded-xl border border-gray-200 bg-white py-2.5 pl-10 pr-3.5 text-sm text-gray-900 transition focus:border-green-800 focus:outline-none focus:ring-2 focus:ring-green-800/15"
             />
           </div>
         </div>
 
-        {/* State & District Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {/* Profile Picture URL */}
+        <div>
+          <label className="mb-1.5 block text-xs font-medium text-gray-700">
+            Profile Picture URL
+          </label>
+          <div className="relative flex items-center">
+            <HiOutlinePhoto className="pointer-events-none absolute left-3.5 h-4 w-4 text-gray-400" />
+            <input
+              type="url"
+              name="profilePic"
+              value={formData.profilePic}
+              onChange={handleChange}
+              placeholder="https://example.com/avatar.jpg"
+              className="w-full rounded-xl border border-gray-200 bg-white py-2.5 pl-10 pr-3.5 text-sm text-gray-900 transition focus:border-green-800 focus:outline-none focus:ring-2 focus:ring-green-800/15"
+            />
+          </div>
+        </div>
+
+        {/* State & District */}
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
-            <label className="block text-xs font-semibold text-emerald-900 uppercase tracking-wider mb-1">
+            <label className="mb-1.5 block text-xs font-medium text-gray-700">
               State
             </label>
             <div className="relative flex items-center">
-              <FaMapMarkerAlt className="absolute left-3 text-emerald-500" />
+              <HiOutlineMapPin className="pointer-events-none absolute left-3.5 h-4 w-4 text-gray-400" />
               <input
                 type="text"
                 name="state"
                 value={formData.state}
                 onChange={handleChange}
-                placeholder="e.g. Punjab"
+                placeholder="e.g. Uttar Pradesh"
                 required
-                className="w-full pl-9 pr-3 py-2 text-sm bg-white border border-emerald-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-emerald-900"
+                className="w-full rounded-xl border border-gray-200 bg-white py-2.5 pl-10 pr-3.5 text-sm text-gray-900 transition focus:border-green-800 focus:outline-none focus:ring-2 focus:ring-green-800/15"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-emerald-900 uppercase tracking-wider mb-1">
+            <label className="mb-1.5 block text-xs font-medium text-gray-700">
               District / Mandi Hub
             </label>
             <div className="relative flex items-center">
-              <FaMapMarkerAlt className="absolute left-3 text-emerald-500" />
+              <HiOutlineMapPin className="pointer-events-none absolute left-3.5 h-4 w-4 text-gray-400" />
               <input
                 type="text"
                 name="district"
                 value={formData.district}
                 onChange={handleChange}
-                placeholder="e.g. Ludhiana"
+                placeholder="e.g. Mirzapur"
                 required
-                className="w-full pl-9 pr-3 py-2 text-sm bg-white border border-emerald-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-emerald-900"
+                className="w-full rounded-xl border border-gray-200 bg-white py-2.5 pl-10 pr-3.5 text-sm text-gray-900 transition focus:border-green-800 focus:outline-none focus:ring-2 focus:ring-green-800/15"
               />
             </div>
           </div>
         </div>
 
         {/* Action Buttons */}
-        <div className="flex items-center justify-end gap-3 pt-4 border-t border-emerald-100">
+        <div className="flex items-center justify-end gap-3 border-t border-gray-100 pt-4">
           <button
             type="button"
             onClick={handleCancel}
             disabled={isUnchanged || isSubmitting}
-            className="px-4 py-2 text-sm font-medium text-emerald-700 bg-emerald-50 hover:bg-emerald-100 rounded-lg transition-colors flex items-center gap-1.5 disabled:opacity-40 disabled:cursor-not-allowed"
+            className="rounded-xl border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-40"
           >
-            <FaUndo className="text-xs" />
             Cancel
           </button>
 
           <button
             type="submit"
             disabled={isUnchanged || isSubmitting}
-            className="px-5 py-2 text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg shadow-sm transition-colors flex items-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed"
+            className="inline-flex items-center gap-2 rounded-xl bg-green-800 px-5 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-green-900 disabled:cursor-not-allowed disabled:opacity-40"
           >
-            {isSubmitting && <FaSpinner className="animate-spin" />}
-            Update Profile
+            {isSubmitting ? (
+              <HiOutlineArrowPath className="h-4 w-4 animate-spin" />
+            ) : (
+              <HiOutlineCheck className="h-4 w-4" />
+            )}
+            Save Changes
           </button>
         </div>
       </form>

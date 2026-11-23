@@ -1,23 +1,25 @@
 import MarketList from "@/app/_components/MarketList";
 import MarketMapLoader from "@/app/_components/MarketMapLoader";
 import { extractMarketData, fetchMandiRecords } from "@/utils/market";
+import { auth } from "../_lib/auth";
+import { getFarmerById } from "../_services/apiFarmers.mjs";
 
 // Usage: /market-analysis?state=Punjab&district=Amritsar
-export default async function MarketAnalysisPage({
-  state = "Punjab",
-  searchParams,
-}) {
+export default async function MarketAnalysisPage({ farmerId, searchParams }) {
   // Next.js 15+/16: searchParams is a Promise
   const params = await searchParams;
 
   //   const state = params?.state || "Punjab";
   const district = params?.location || "Ludhiana";
+  const crop = params?.crop || "Apple";
+
+  const { state } = await getFarmerById(farmerId);
 
   let data = extractMarketData([]);
   let error = null;
 
   try {
-    const records = await fetchMandiRecords({ state, district });
+    const records = await fetchMandiRecords({ crop, state, district });
     data = extractMarketData(records);
   } catch {
     error = "Couldn't load market data. Please try again.";
