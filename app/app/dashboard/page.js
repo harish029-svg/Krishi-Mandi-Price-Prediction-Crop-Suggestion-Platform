@@ -96,6 +96,11 @@ const quickActionsData = [
   },
 ];
 
+export const metadata = {
+  title: "Dashboard",
+  description: "Overview of today's best mandi prices, nearby markets, and crop suggestions.",
+};
+
 // --- MAIN DASHBOARD VIEW ---
 export default async function Dashboard() {
   const session = await auth();

@@ -64,7 +64,7 @@ export default function TrendChart({ rawApiData }) {
       {chartData.length === 0 ? (
         <div className="h-[300px] w-full flex items-center justify-center text-gray-400 border border-dashed border-gray-200 rounded-xl">
           <p className="text-sm font-medium">
-            No price data found for "{crop}" in "{location}"
+            No price data found for &quot;{crop}&quot; in &quot;{location}&quot;
           </p>
         </div>
       ) : (

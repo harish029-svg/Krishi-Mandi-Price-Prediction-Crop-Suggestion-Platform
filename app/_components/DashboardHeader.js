@@ -10,7 +10,7 @@ function DashboardHeader({ id }) {
         Good Morning, {isLoading ? "Loading..." : farmer?.name} ji
       </h1>
       <p className="text-gray-500 text-sm">
-        Here's what's happening in your area today.
+        Here&apos;s what&apos;s happening in your area today.
       </p>
     </div>
   );

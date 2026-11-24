@@ -1,67 +1,90 @@
 "use client";
 
-import { useActionState } from "react";
-import { FiEye, FiEyeOff } from "react-icons/fi";
+import { useActionState, useState } from "react";
+import { FiEye, FiEyeOff, FiLock, FiMail } from "react-icons/fi";
 
 export default function LoginForm({ action }) {
   const [state, formAction, pending] = useActionState(action, null);
-
-  // const handleLogin = (e) => {
-  //   e.preventDefault();
-  //   console.log("Login attempt:", { mobileNumber, password });
-  // };
-  console.log(state);
+  const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <form action={formAction} className="space-y-5">
+    <form action={formAction} className="space-y-4">
+      {state?.error && (
+        <div
+          role="alert"
+          className="p-3 rounded-xl bg-red-500/15 border border-red-500/30 text-red-900 text-xs font-semibold backdrop-blur-sm animate-fadeIn"
+        >
+          {state.error}
+        </div>
+      )}
+
       <div>
         <label
-          className="block text-sm font-bold text-gray-800 mb-1.5 drop-shadow-sm"
-          htmlFor="mobile"
+          className="block text-xs font-bold uppercase tracking-wider text-gray-800 mb-1.5"
+          htmlFor="email"
         >
-          Email
+          Email Address
         </label>
-        <input
-          id="mobile"
-          type="email"
-          placeholder="Enter your email"
-          className="w-full px-4 py-2.5 bg-white/50 border border-white/60 rounded-lg focus:ring-2 focus:ring-[#0d4734] focus:bg-white/70 focus:border-transparent outline-none transition-all placeholder:text-gray-600 text-gray-900 font-medium"
-          name="email"
-          required
-        />
+        <div className="relative">
+          <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none">
+            <FiMail size={16} />
+          </span>
+          <input
+            id="email"
+            type="email"
+            placeholder="Enter your email"
+            className="agri-input-field pl-10"
+            name="email"
+            autoComplete="email"
+            required
+          />
+        </div>
       </div>
 
       <div>
         <label
-          className="block text-sm font-bold text-gray-800 mb-1.5 drop-shadow-sm"
+          className="block text-xs font-bold uppercase tracking-wider text-gray-800 mb-1.5"
           htmlFor="password"
         >
           Password
         </label>
         <div className="relative">
+          <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none">
+            <FiLock size={16} />
+          </span>
           <input
             id="password"
+            type={showPassword ? "text" : "password"}
             placeholder="Enter your password"
-            className="w-full px-4 py-2.5 bg-white/50 border border-white/60 rounded-lg focus:ring-2 focus:ring-[#0d4734] focus:bg-white/70 focus:border-transparent outline-none transition-all placeholder:text-gray-600 text-gray-900 font-medium"
+            className="agri-input-field pl-10 pr-11"
             name="password"
+            autoComplete="current-password"
             required
           />
-          {/* <button
+          <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-600 hover:text-gray-900 focus:outline-none"
-            aria-label="Toggle password visibility"
+            className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-600 hover:text-gray-900 focus:outline-none p-1 transition-colors"
+            aria-label={showPassword ? "Hide password" : "Show password"}
           >
-            {showPassword ? <FiEyeOff size={18} /> : <FiEye size={18} />}
-          </button> */}
+            {showPassword ? <FiEyeOff size={17} /> : <FiEye size={17} />}
+          </button>
         </div>
       </div>
 
       <button
         type="submit"
-        className="w-full bg-[#0d4734]/90 hover:bg-[#0d4734] backdrop-blur-sm text-white font-semibold py-3 rounded-lg transition-colors mt-4 shadow-md"
+        disabled={pending}
+        className="agri-btn-submit mt-5"
       >
-        Login
+        {pending ? (
+          <span className="inline-flex items-center gap-2">
+            <span className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
+            Signing in...
+          </span>
+        ) : (
+          "Login"
+        )}
       </button>
     </form>
   );

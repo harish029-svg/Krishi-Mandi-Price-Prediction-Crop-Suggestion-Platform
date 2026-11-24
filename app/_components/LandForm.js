@@ -156,11 +156,13 @@ export default function LandForm({
     state: initialValues?.state || stateName || "",
   }));
 
-  useEffect(() => {
-    if (stateName) {
-      setValues((v) => ({ ...v, state: v.state || stateName }));
+  const [prevPropState, setPrevPropState] = useState(stateName);
+  if (stateName && stateName !== prevPropState) {
+    setPrevPropState(stateName);
+    if (!values.state) {
+      setValues((v) => ({ ...v, state: stateName }));
     }
-  }, [stateName]);
+  }
 
   const set = (e) =>
     setValues((v) => ({ ...v, [e.target.name]: e.target.value }));

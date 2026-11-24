@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState } from "react";
@@ -17,6 +16,8 @@ import {
   FiX,
   FiShield,
 } from "react-icons/fi";
+import AgriLivingEnvironment from "./AgriLivingEnvironment";
+import MotionReveal from "./MotionReveal";
 
 // All landing page content is managed dynamically through arrays.
 
@@ -60,21 +61,21 @@ const benefits = [
 const platformFeatures = [
   {
     title: "Mandi Price Insights",
-    description: "Explore crop prices and compare available market information.",
+    description: "Explore crop prices and compare available market information across India.",
     icon: FiBarChart2,
     href: "/app/mandi-prices",
     action: "Explore Prices",
   },
   {
     title: "AI Crop Suggestions",
-    description: "Discover suitable crops using your farm and growing conditions.",
+    description: "Discover suitable crops using your farm's soil and local growing conditions.",
     icon: FiCpu,
     href: "/app/crop-suggestion",
     action: "Find Crop Ideas",
   },
   {
     title: "Market Analysis",
-    description: "Understand market trends and make informed selling decisions.",
+    description: "Understand seasonal price trends and make high-yield selling decisions.",
     icon: FiTrendingUp,
     href: "/app/market-analysis",
     action: "View Analysis",
@@ -93,8 +94,8 @@ export default function LandingPage() {
       <header className="landing-header">
         <div className="landing-header-inner">
 
-          <Link href="/" className="brand" onClick={closeMenu}>
-            <span className="brand-mark">
+          <Link href="/" className="brand" onClick={closeMenu} aria-label="AgriSaathi Home">
+            <span className="brand-mark shadow-sm">
               <FiFeather />
             </span>
             <span>AgriSaathi</span>
@@ -110,6 +111,7 @@ export default function LandingPage() {
 
           <nav
             className={`main-navigation ${menuOpen ? "is-open" : ""}`}
+            aria-label="Main Navigation"
           >
             {navigation.map((item) => (
               <Link
@@ -132,7 +134,7 @@ export default function LandingPage() {
 
             <Link
               href="/login"
-              className="nav-get-started"
+              className="nav-get-started shadow-sm"
               onClick={closeMenu}
             >
               Get Started <FiArrowRight />
@@ -141,15 +143,25 @@ export default function LandingPage() {
         </div>
       </header>
 
-      {/* HERO SECTION */}
-      <section className="hero-section">
+      {/* HERO SECTION WITH IMMERSIVE LIVING AGRICULTURAL ENVIRONMENT */}
+      <section className="hero-section" aria-label="Hero Introduction">
+        {/* Living background simulation */}
+        <AgriLivingEnvironment
+          mode="hero"
+          showAtmosphere={true}
+          showParticles={true}
+          showCrops={true}
+          interactive={true}
+        />
+
         <div className="hero-overlay" />
 
         <div className="hero-content">
 
-          <span className="hero-eyebrow">
+          <div className="hero-eyebrow">
+            <span className="inline-block w-2 h-2 rounded-full bg-[#55df8b] shadow-[0_0_8px_#55df8b] mr-1.5 animate-pulse" />
             <FiFeather /> SMARTER FARMING STARTS HERE
-          </span>
+          </div>
 
           <h1>
             Better Decisions
@@ -163,11 +175,17 @@ export default function LandingPage() {
           </p>
 
           <div className="hero-highlights">
-            {heroHighlights.map((item) => {
+            {heroHighlights.map((item, idx) => {
               const Icon = item.icon;
 
               return (
-                <div className="hero-highlight" key={item.label}>
+                <div
+                  className="hero-highlight"
+                  key={item.label}
+                  style={{
+                    animation: `heroTextEntrance 0.7s cubic-bezier(0.16, 1, 0.3, 1) ${0.3 + idx * 0.08}s both`,
+                  }}
+                >
                   <span className="hero-highlight-icon">
                     <Icon />
                   </span>
@@ -183,13 +201,13 @@ export default function LandingPage() {
           </div>
 
           <div className="hero-actions">
-            <Link href="/login" className="primary-cta">
-              Get Started <FiArrowRight />
+            <Link href="/login" className="primary-cta glow-pulse">
+              Get Started <FiArrowRight className="text-base" />
             </Link>
 
             <a href="#platform-features" className="demo-cta">
               <span className="play-icon">
-                <FiPlay />
+                <FiPlay className="translate-x-0.5" />
               </span>
               Explore Features
             </a>
@@ -198,9 +216,9 @@ export default function LandingPage() {
       </section>
 
       {/* BENEFITS SECTION */}
-      <section className="benefits-section" id="why-agrisaathi">
+      <section className="benefits-section" id="why-agrisaathi" aria-label="Why choose AgriSaathi">
 
-        <div className="section-heading">
+        <MotionReveal direction="up" distance={20} className="section-heading">
           <span className="section-kicker">WHY AGRISAATHI</span>
 
           <h2>Why choose AgriSaathi?</h2>
@@ -208,14 +226,21 @@ export default function LandingPage() {
           <p>
             Useful agricultural insights, brought together in one place.
           </p>
-        </div>
+        </MotionReveal>
 
         <div className="benefit-grid">
-          {benefits.map((benefit) => {
+          {benefits.map((benefit, index) => {
             const Icon = benefit.icon;
 
             return (
-              <article className="benefit-card" key={benefit.title}>
+              <MotionReveal
+                as="article"
+                key={benefit.title}
+                direction="up"
+                distance={24}
+                delay={index * 90}
+                className="benefit-card"
+              >
                 <span className="benefit-icon">
                   <Icon />
                 </span>
@@ -223,16 +248,16 @@ export default function LandingPage() {
                 <h3>{benefit.title}</h3>
 
                 <p>{benefit.description}</p>
-              </article>
+              </MotionReveal>
             );
           })}
         </div>
       </section>
 
       {/* PLATFORM FEATURES */}
-      <section className="platform-section" id="platform-features">
+      <section className="platform-section" id="platform-features" aria-label="Platform Features">
 
-        <div className="section-heading">
+        <MotionReveal direction="up" distance={20} className="section-heading">
           <span className="section-kicker">
             ONE PLATFORM, MANY POSSIBILITIES
           </span>
@@ -242,14 +267,21 @@ export default function LandingPage() {
           <p>
             Explore the tools designed to make farming decisions easier.
           </p>
-        </div>
+        </MotionReveal>
 
         <div className="platform-grid">
-          {platformFeatures.map((feature) => {
+          {platformFeatures.map((feature, index) => {
             const Icon = feature.icon;
 
             return (
-              <article className="platform-card" key={feature.title}>
+              <MotionReveal
+                as="article"
+                key={feature.title}
+                direction="up"
+                distance={24}
+                delay={index * 110}
+                className="platform-card"
+              >
 
                 <span className="platform-icon">
                   <Icon />
@@ -259,20 +291,20 @@ export default function LandingPage() {
 
                 <p>{feature.description}</p>
 
-                <Link href={feature.href} className="text-link">
-                  {feature.action} <FiArrowRight />
+                <Link href={feature.href} className="text-link group">
+                  {feature.action} <FiArrowRight className="transition-transform group-hover:translate-x-1" />
                 </Link>
 
-              </article>
+              </MotionReveal>
             );
           })}
         </div>
       </section>
 
       {/* FINAL CTA */}
-      <section className="farmer-cta-section">
+      <MotionReveal direction="up" distance={24} className="farmer-cta-section shadow-xl">
 
-        <div className="farmer-cta-icon">
+        <div className="farmer-cta-icon shadow-inner">
           <FiShield />
         </div>
 
@@ -289,16 +321,16 @@ export default function LandingPage() {
           </p>
         </div>
 
-        <Link href="/login" className="primary-cta cta-light">
+        <Link href="/login" className="primary-cta cta-light shadow-md hover:shadow-lg">
           Get Started <FiArrowRight />
         </Link>
 
-      </section>
+      </MotionReveal>
 
       {/* FOOTER */}
       <footer className="landing-footer">
 
-        <Link href="/" className="brand footer-brand">
+        <Link href="/" className="brand footer-brand" aria-label="AgriSaathi">
           <span className="brand-mark">
             <FiFeather />
           </span>

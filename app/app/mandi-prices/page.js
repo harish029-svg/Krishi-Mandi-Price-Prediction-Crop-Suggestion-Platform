@@ -6,7 +6,8 @@ import MandiChart from "../../_components/MandiChart";
 import TableChartSkeleton from "../../_components/TableChartSkeleton";
 import { auth } from "@/app/_lib/auth";
 export const metadata = {
-  title: "mandi prices",
+  title: "Live Mandi Prices",
+  description: "Track real-time agricultural mandi commodity prices across India.",
 };
 
 async function Page({ searchParams }) {

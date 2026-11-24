@@ -2,6 +2,12 @@ import MandiWrapper from "@/app/_components/MandiWrapper";
 import MarketAnalysisPage from "@/app/_components/MarketAnalysis";
 import { auth } from "@/app/_lib/auth";
 
+export const metadata = {
+  title: "Market Analysis",
+  description:
+    "Analyze commodity price trends and find nearby agricultural markets with geographic insights.",
+};
+
 async function page({ searchParams }) {
   const session = await auth();
   return (

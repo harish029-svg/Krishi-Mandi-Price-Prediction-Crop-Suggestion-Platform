@@ -1,13 +1,14 @@
-
 import LandingPage from "./_components/LandingPage.js";
 
 export const metadata = {
-  title: "AgriSaathi | Smarter Farming Decisions",
+  title: "AgriSaathi | Smarter Farming Decisions & Real-Time Mandi Prices",
   description:
-    "Explore mandi prices, AI crop suggestions and agricultural market insights.",
+    "Get real-time mandi prices today, AI-powered crop suggestions, nearby agricultural markets, and historical price trends — all in one unified smart farming platform.",
+  alternates: {
+    canonical: "/",
+  },
 };
 
 export default function HomePage() {
   return <LandingPage />;
 }
-
